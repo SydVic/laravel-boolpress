@@ -22,6 +22,8 @@ Route::middleware('auth')
     ->prefix('admin')
     ->group(function() {
         Route::get('/', 'HomeController@index')->name('home');
+        // con resource il ->name('') è aggiunto in automatico
+        Route::resource('posts', 'PostController');
     });
 
 Route::get('{any?}', function() {
