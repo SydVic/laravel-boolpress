@@ -12,7 +12,7 @@
             <h5 class="card-title">{{$post->title}}</h5>
             <p>Slug: {{ $post->slug }}</p>
             <p class="card-text">{{ $post->content }}</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <a href="{{ route('admin.posts.show', ['post' => $post->id]) }}" class="btn btn-primary">View post</a>
           </div>
         </div>
       @endforeach
