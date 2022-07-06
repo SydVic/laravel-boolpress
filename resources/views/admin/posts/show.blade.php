@@ -9,7 +9,11 @@
     <p class="card-text">{{ $post->content}}</p>
     <a href="{{ route('admin.posts.index') }}" class="btn btn-primary">Back to all posts</a>
     <a href="{{ route('admin.posts.edit', ['post' => $post->id]) }}" class="btn btn-primary">Edit this post</a>
-    <a href="#" class="btn btn-danger">Delete</a>
+    <form action="{{ route('admin.posts.destroy', ['post' => $post->id]) }}" method="POST" class="mt-3">
+      @csrf
+      @method('DELETE')
+      <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
+    </form>
   </div>
 </div>
 @endsection

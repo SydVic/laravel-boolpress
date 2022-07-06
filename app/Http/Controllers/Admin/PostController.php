@@ -107,7 +107,10 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post_to_destroy = Post::findOrFail($id);
+        $post_to_destroy->delete();
+
+        return redirect()->route('admin.posts.index');
     }
     
     /**

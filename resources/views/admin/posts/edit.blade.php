@@ -32,6 +32,7 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Submit changes</button>
+    <a href="{{ route('admin.posts.show', ['post' => $post_to_edit->id]) }}" class="btn btn-primary">Back without changes</a>
   </form>
   {{-- /FORM PER MODIFICA NUOVO POST --}}
 @endsection
