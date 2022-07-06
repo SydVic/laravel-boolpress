@@ -15,22 +15,23 @@
   @endif
   {{-- /FEEDBACK ERRORI FORM PER UTENTE --}}
 
-      {{-- FORM PER CREAZIONE NUOVO POST --}}
-      <form class="mt-3" action="{{ route('admin.posts.store') }}" method="post">
-        @csrf
-  
-        <div class="mb-3">
-          <label for="title" class="form-label">Title</label>
-          <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}">
-        </div>
+  {{-- FORM PER CREAZIONE NUOVO POST --}}
+  <form class="mt-3" action="{{ route('admin.posts.store') }}" method="POST">
+    @csrf
 
-        <div class="mb-3">
-          <label for="content" class="form-label">Content</label>
-          {{-- TEXT area non ha attributo value quindi old() va all'interno del tag --}}
-          <textarea type="text" class="form-control" id="content" name="content" rows="10">{{ old('content') }}</textarea>
-        </div>
-  
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-      {{-- /FORM PER CREAZIONE NUOVO POST --}}
+    <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}">
+    </div>
+
+    <div class="mb-3">
+      <label for="content" class="form-label">Content</label>
+      {{-- TEXT area non ha attributo value quindi old() va all'interno del tag --}}
+      <textarea type="text" class="form-control" id="content" name="content" rows="10">{{ old('content') }}</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  {{-- /FORM PER CREAZIONE NUOVO POST --}}
+
 @endsection
