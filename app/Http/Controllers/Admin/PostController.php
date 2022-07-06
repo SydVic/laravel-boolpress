@@ -72,7 +72,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post_to_edit = Post::findOrFail($id);
+
+        return view('admin.posts.edit', compact('post_to_edit'));
     }
 
     /**
@@ -84,7 +86,17 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // controllo dei dati
+        $request->validate($this->getValidationRules());
+
+        // salvataggio dati
+        $data = $request->all();
+        $post_to_update = Post::findOrFail($id);
+        $post_to_update->fill($data);
+        $post_to_update->slug = $this->generateUniqueSlug($post_to_update->title);
+        
+        $post_to_update->save();
+        return redirect()->route('admin.posts.show', ['post' => $post_to_update->id]);
     }
 
     /**
@@ -113,7 +125,7 @@ class PostController extends Controller
     /**
      * createUniqueSlug
      *
-     * @return slug string
+     * @return unique slug string
      */
     private function generateUniqueSlug($title) {
         $base_slug = Str::slug($title, '-');

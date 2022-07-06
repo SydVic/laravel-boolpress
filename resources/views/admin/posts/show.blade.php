@@ -8,7 +8,7 @@
     <p class="card-text">Slug: {{ $post->slug}}</p>
     <p class="card-text">{{ $post->content}}</p>
     <a href="{{ route('admin.posts.index') }}" class="btn btn-primary">Back to all posts</a>
-    <a href="#" class="btn btn-primary">Edit this post</a>
+    <a href="{{ route('admin.posts.edit', ['post' => $post->id]) }}" class="btn btn-primary">Edit this post</a>
     <a href="#" class="btn btn-danger">Delete</a>
   </div>
 </div>
