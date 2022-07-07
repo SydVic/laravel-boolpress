@@ -88,13 +88,19 @@ class PostController extends Controller
         // controllo dei dati
         $request->validate($this->getValidationRules());
 
-        // salvataggio dati
-        $data = $request->all();
+        // salvataggio dati con metodo save
+        // $data = $request->all();
+        // $post_to_update = Post::findOrFail($id);
+        // $post_to_update->fill($data);
+        // $post_to_update->slug = Post::generateUniqueSlug($post_to_update->title);
+        // $post_to_update->save();
+
+        // salvataggio dati con metodo update
         $post_to_update = Post::findOrFail($id);
-        $post_to_update->fill($data);
-        $post_to_update->slug = Post::generateUniqueSlug($post_to_update->title);
-        
-        $post_to_update->save();
+        $data = $request->all();
+        $data['slug'] = Post::generateUniqueSlug($data['title']);
+        $post_to_update->update($data);
+
         return redirect()->route('admin.posts.show', ['post' => $post_to_update->id]);
     }
 
