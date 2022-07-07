@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -45,7 +44,7 @@ class PostController extends Controller
         $data = $request->all();
         $new_post = new Post();
         $new_post->fill($data);
-        $new_post->slug = $this->generateUniqueSlug($new_post->title);
+        $new_post->slug = Post::generateUniqueSlug($new_post->title);
         $new_post->save();
 
         return redirect()->route('admin.posts.show', ['post' => $new_post->id]);
@@ -93,7 +92,7 @@ class PostController extends Controller
         $data = $request->all();
         $post_to_update = Post::findOrFail($id);
         $post_to_update->fill($data);
-        $post_to_update->slug = $this->generateUniqueSlug($post_to_update->title);
+        $post_to_update->slug = Post::generateUniqueSlug($post_to_update->title);
         
         $post_to_update->save();
         return redirect()->route('admin.posts.show', ['post' => $post_to_update->id]);
@@ -123,23 +122,5 @@ class PostController extends Controller
             'title' => 'required|max:255',
             'content' => 'required|max:20000'
         ];
-    }
-    
-    /**
-     * createUniqueSlug
-     *
-     * @return unique slug string
-     */
-    private function generateUniqueSlug($title) {
-        $base_slug = Str::slug($title, '-');
-        $slug = $base_slug;
-        $count = 1;
-        $slug_found = Post::where('slug', '=', $slug)->first();
-        while($slug_found) {
-            $slug = $base_slug . '-' . $count;
-            $slug_found = Post::where('slug', '=', $slug)->first();
-            $count++;
-        }
-        return $slug;
     }
 }

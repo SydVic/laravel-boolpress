@@ -3,7 +3,6 @@
 use App\Post;
 use Illuminate\Database\Seeder;
 use Faker\Generator as Faker;
-use Illuminate\Support\Str;
 
 class PostsTableSeeder extends Seeder
 {
@@ -18,7 +17,8 @@ class PostsTableSeeder extends Seeder
             $post = new Post();
             $post->title = $faker->sentence();
             $post->content = $faker->paragraph(rand(5, 20), false);
-            $post->slug = Str::slug($post->title, '-');
+            // in questo modo già alla creazione fai il controllo che lo slug sia univoco
+            $post->slug = Post::generateUniqueSlug($post->title);
             $post->save();
         }
     }
