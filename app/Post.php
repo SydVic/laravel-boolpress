@@ -9,6 +9,12 @@ use Illuminate\Support\Str;
 class Post extends Model
 {
     use SoftDeletes;
+
+    // al singolare perchè appartiene ad una sola categoria
+    public function category() {
+        // belongsTo() perchè è la tabella dipendente
+        return $this->belongsTo('App\Category');
+    }
     
     protected $fillable = [
         'title',

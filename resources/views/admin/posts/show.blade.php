@@ -5,6 +5,8 @@
   {{-- <img class="card-img-top" src="..." alt="Card image cap"> --}}
   <div class="card-body">
     <h5 class="card-title">{{ $post->title }}</h5>
+    {{-- per controllare se c'è o no la categoria altrimenti da errore --}}
+    <p>Category: {{ $category ? $category->name : 'no-category' }}</p>
     <p class="card-text">Slug: {{ $post->slug}}</p>
     <p class="card-text">{{ $post->content}}</p>
     <a href="{{ route('admin.posts.index') }}" class="btn btn-primary">Back to all posts</a>
