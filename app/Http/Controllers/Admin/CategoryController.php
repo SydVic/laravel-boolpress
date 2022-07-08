@@ -13,4 +13,11 @@ class CategoryController extends Controller
 
         return view('admin.categories.index', compact('categories'));
     }
+
+    public function show($slug) {
+        // lo slug è unico quindi possiamo usare first(), altrimenti se avessimo avuto più valori (collection) ->get()
+        $category = Category::where('slug', '=', $slug)->first();
+
+        return view('admin.categories.show', compact('category'));
+    }
 }

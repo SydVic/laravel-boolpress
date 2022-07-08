@@ -133,6 +133,7 @@ class PostController extends Controller
         return [
             'title' => 'required|max:255',
             'content' => 'required|max:20000',
+            // puo essere null e poi deve esistere nella tabella->categories nella colonna->id
             'category_id' => 'nullable|exists:categories,id'
         ];
     }

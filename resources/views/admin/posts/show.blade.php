@@ -11,6 +11,7 @@
     <p class="card-text">{{ $post->content}}</p>
     <a href="{{ route('admin.posts.index') }}" class="btn btn-primary">Back to all posts</a>
     <a href="{{ route('admin.posts.edit', ['post' => $post->id]) }}" class="btn btn-primary">Edit this post</a>
+    <a href="{{ route('admin.categories.show', ['slug' => $category->slug]) }}" class="btn btn-primary">Back to posts of this category</a>
     <form action="{{ route('admin.posts.destroy', ['post' => $post->id]) }}" method="POST" class="mt-3">
       @csrf
       @method('DELETE')

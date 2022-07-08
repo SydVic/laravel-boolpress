@@ -25,6 +25,7 @@ Route::middleware('auth')
         // con resource il ->name('') è aggiunto in automatico
         Route::resource('posts', 'PostController');
         Route::get('categories', 'CategoryController@index')->name('categories.index');
+        Route::get('categories/{slug}', 'CategoryController@show')->name('categories.show');
     });
 
 Route::get('{any?}', function() {
