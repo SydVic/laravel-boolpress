@@ -2,9 +2,9 @@
 
 @section('main_content')
 
-  <div class="container">
+  <div class="container-fluid">
     <h2>All posts</h2>
-    <div class="container-fluid d-flex flex-wrap">
+    <div class="container-fluid d-flex flex-wrap justify-content-center">
       @foreach ($posts as $post)
         <div class="card m-2" style="width: 30rem;">
           {{-- <img src="..." class="card-img-top" alt="..."> --}}
@@ -16,6 +16,9 @@
           </div>
         </div>
       @endforeach
+    </div>
+    <div class="d-flex justify-content-center">
+      {{$posts->links()}}
     </div>
   </div>
 

@@ -17,7 +17,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::paginate(6);
 
         return view('admin.posts.index', compact('posts'));
     }
@@ -134,6 +134,8 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post_to_destroy = Post::findOrFail($id);
+        // per eliminare prima i record dalla tabella ponte
+        // $post_to_destroy->tags()->sync([]);
         $post_to_destroy->delete();
 
         return redirect()->route('admin.posts.index');
