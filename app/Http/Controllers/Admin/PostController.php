@@ -32,7 +32,7 @@ class PostController extends Controller
         $categories = Category::all();
         $tags = Tag::all();
 
-        return view('admin.posts.create', compact('categories'));
+        return view('admin.posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -52,6 +52,9 @@ class PostController extends Controller
         $new_post->fill($data);
         $new_post->slug = Post::generateUniqueSlug($new_post->title);
         $new_post->save();
+
+        // salvataggio dei tags del post dopo save perchè ci serve che venga creato prima l'id del post
+        $new_post->tags()->sync($data['tags']);
 
         return redirect()->route('admin.posts.show', ['post' => $new_post->id]);
     }
@@ -81,8 +84,9 @@ class PostController extends Controller
     {
         $post_to_edit = Post::findOrFail($id);
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('admin.posts.edit', compact('post_to_edit', 'categories'));
+        return view('admin.posts.edit', compact('post_to_edit', 'categories', 'tags'));
     }
 
     /**
@@ -137,7 +141,8 @@ class PostController extends Controller
             'title' => 'required|max:255',
             'content' => 'required|max:20000',
             // puo essere null e poi deve esistere nella tabella->categories nella colonna->id
-            'category_id' => 'nullable|exists:categories,id'
+            'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'nullable|exists:tags,id'
         ];
     }
 }
