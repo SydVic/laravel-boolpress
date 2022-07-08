@@ -10,6 +10,8 @@ class HomeController extends Controller
 {
     public function index() {
         $user = Auth::user();
-        return view('admin.home', compact('user'));
+        // se non ho capito male la relazione è con il model, quindi devi usare ->UserDetails che è il nome del model
+        $user_details = $user->UserDetails;
+        return view('admin.home', compact('user', 'user_details'));
     }
 }
