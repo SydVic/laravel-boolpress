@@ -31,6 +31,8 @@ class AddCategoryIdToPosts extends Migration
     public function down()
     {
         Schema::table('posts', function (Blueprint $table) {
+            // per permetterci di cancellare la colonna dobbiamo prima eliminare la foreign key
+            // la notazione è nometabella_nomecolonna_foreign   foreign è come lo chiama laravel
             $table->dropForeign('posts_category_id_foreign');
             $table->dropColumn('category_id');
         });
