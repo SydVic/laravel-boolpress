@@ -14,4 +14,8 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
 
+// script JavaScript personalizzato per il frontoffice
 mix.js('resources/js/front.js', 'public/js');
+
+// per copiare in public/webfonts i fonts che servono a fontawesome per funzionare
+mix.copy('node_modules/@fortawesome/fontawesome-free/webfonts', 'public/webfonts');
