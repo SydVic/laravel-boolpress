@@ -15,6 +15,10 @@ class Post extends Model
         // belongsTo() perchè è la tabella dipendente
         return $this->belongsTo('App\Category');
     }
+
+    public function tags() {
+        return $this->belongsToMany('App\Tag');
+    }
     
     protected $fillable = [
         'title',
