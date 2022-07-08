@@ -114,6 +114,8 @@ class PostController extends Controller
         $data['slug'] = Post::generateUniqueSlug($data['title']);
         $post_to_update->update($data);
 
+        $post_to_update->tags()->sync($data['tags']);
+
         return redirect()->route('admin.posts.show', ['post' => $post_to_update->id]);
     }
 

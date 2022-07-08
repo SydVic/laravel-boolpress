@@ -45,7 +45,7 @@
       @foreach ($tags as $tag)
         <div class="form-check">
           {{-- per salvare i valori multipli degli input si fa  name="tags[]" --}}
-          <input class="form-check-input" type="checkbox" value="{{ $tag->id }}" id="tag-{{ $tag->id }}" name="tags[]">
+          <input class="form-check-input" type="checkbox" value="{{ $tag->id }}" id="tag-{{ $tag->id }}" name="tags[]" {{ ($post_to_edit->tags->contains($tag) || in_array($tag->id, old('tags', []))) ? 'checked' : '' }}>
           {{-- a old possiamo passare parametro di default (in questo caso array, per eviatre che se nell'old non addiamo niente ci dia errore) --}}
           <label class="form-check-label" for="tag-{{ $tag->id }}">
             {{ $tag->name }}
