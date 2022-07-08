@@ -54,7 +54,9 @@ class PostController extends Controller
         $new_post->save();
 
         // salvataggio dei tags del post dopo save perchè ci serve che venga creato prima l'id del post
-        $new_post->tags()->sync($data['tags']);
+        if (isset($data['tags'])) {
+            $new_post->tags()->sync($data['tags']);
+        }
 
         return redirect()->route('admin.posts.show', ['post' => $new_post->id]);
     }
@@ -114,7 +116,11 @@ class PostController extends Controller
         $data['slug'] = Post::generateUniqueSlug($data['title']);
         $post_to_update->update($data);
 
-        $post_to_update->tags()->sync($data['tags']);
+        if (isset($data['tags'])) {
+            $post_to_update->tags()->sync($data['tags']);
+        } else {
+            $post_to_update->tags()->sync([]);
+        }
 
         return redirect()->route('admin.posts.show', ['post' => $post_to_update->id]);
     }
