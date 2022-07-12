@@ -1912,21 +1912,29 @@ __webpack_require__.r(__webpack_exports__);
   name: 'Posts',
   data: function data() {
     return {
-      posts: []
+      posts: [],
+      currentPage: 1,
+      lastPage: 0
     };
   },
   created: function created() {
     this.getPosts();
   },
   methods: {
-    getPosts: function getPosts() {
+    getPosts: function getPosts(pageNumber) {
       var _this = this;
 
-      axios.get('http://127.0.0.1:8000/api/posts').then(function (resp) {
+      axios.get('http://127.0.0.1:8000/api/posts', {
+        params: {
+          page: pageNumber
+        }
+      }).then(function (resp) {
         // Post:all();
         // this.posts = resp.data.results;
         // Post:paginate(); cambia la struttura della risposta
         _this.posts = resp.data.results.data;
+        _this.currentPage = resp.data.results.current_page;
+        _this.lastPage = resp.data.results.last_page;
       });
     },
     truncateText: function truncateText(text, maxCharNumber) {
@@ -1977,76 +1985,78 @@ var render = function render() {
       _c = _vm._self._c;
 
   return _c("div", {
-    staticClass: "container"
+    staticClass: "container text-center flex-wrap"
   }, [_c("h2", [_vm._v("ALL POSTS")]), _vm._v(" "), _c("div", {
     staticClass: "container-fluid d-flex"
   }, _vm._l(_vm.posts, function (post, index) {
     return _c("div", {
       key: index,
-      staticClass: "card m-2",
-      staticStyle: {
-        width: "18rem"
-      }
+      staticClass: "card m-2"
     }, [_c("div", {
       staticClass: "card-body"
     }, [_c("h5", {
       staticClass: "card-title"
     }, [_vm._v(_vm._s(post.title))]), _vm._v(" "), _c("p", {
       staticClass: "card-text"
-    }, [_vm._v(_vm._s(_vm.truncateText(post.content, 50)))])])]);
-  }), 0), _vm._v(" "), _vm._m(0)]);
-};
-
-var staticRenderFns = [function () {
-  var _vm = this,
-      _c = _vm._self._c;
-
-  return _c("nav", {
+    }, [_vm._v(_vm._s(_vm.truncateText(post.content, 100)))])])]);
+  }), 0), _vm._v(" "), _c("nav", {
     attrs: {
       "aria-label": "..."
     }
   }, [_c("ul", {
     staticClass: "pagination"
   }, [_c("li", {
-    staticClass: "page-item disabled"
-  }, [_c("a", {
-    staticClass: "page-link",
-    attrs: {
-      href: "#",
-      tabindex: "-1"
+    staticClass: "page-item",
+    "class": {
+      disabled: _vm.currentPage === 1
     }
-  }, [_vm._v("Previous")])]), _vm._v(" "), _c("li", {
-    staticClass: "page-item"
   }, [_c("a", {
     staticClass: "page-link",
     attrs: {
       href: "#"
+    },
+    on: {
+      click: function click($event) {
+        return _vm.getPosts(_vm.currentPage - 1);
+      }
     }
-  }, [_vm._v("1")])]), _vm._v(" "), _c("li", {
-    staticClass: "page-item active"
+  }, [_vm._v("Previous")])]), _vm._v(" "), _vm._l(_vm.lastPage, function (n) {
+    return _c("li", {
+      key: n,
+      staticClass: "page-item",
+      "class": {
+        active: _vm.currentPage === n
+      }
+    }, [_c("a", {
+      staticClass: "page-link",
+      attrs: {
+        href: "#"
+      },
+      on: {
+        click: function click($event) {
+          return _vm.getPosts(_vm.currentPage = n);
+        }
+      }
+    }, [_vm._v(_vm._s(n))])]);
+  }), _vm._v(" "), _c("li", {
+    staticClass: "page-item",
+    "class": {
+      disabled: _vm.currentPage === _vm.lastPage
+    }
   }, [_c("a", {
     staticClass: "page-link",
     attrs: {
       href: "#"
+    },
+    on: {
+      click: function click($event) {
+        return _vm.getPosts(_vm.currentPage + 1);
+      }
     }
-  }, [_vm._v("2 "), _c("span", {
-    staticClass: "sr-only"
-  }, [_vm._v("(current)")])])]), _vm._v(" "), _c("li", {
-    staticClass: "page-item"
-  }, [_c("a", {
-    staticClass: "page-link",
-    attrs: {
-      href: "#"
-    }
-  }, [_vm._v("3")])]), _vm._v(" "), _c("li", {
-    staticClass: "page-item"
-  }, [_c("a", {
-    staticClass: "page-link",
-    attrs: {
-      href: "#"
-    }
-  }, [_vm._v("Next")])])])]);
-}];
+  }, [_vm._v("Next")])])], 2)])]);
+};
+
+var staticRenderFns = [];
 render._withStripped = true;
 
 
