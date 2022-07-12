@@ -1,21 +1,21 @@
 <template>
   <div>
     <h2>VUE GUEST</h2>
-    <WorkInProgress />
+    <Posts />
   </div>
 </template>
 
 <script>
-import WorkInProgress from '../components/WorkInProgress.vue';
+import Posts from '../components/Posts.vue';
 
 export default {
   name: 'App',
   components: {
-    WorkInProgress
+    Posts
   }
 }
 </script>
 
-<style>
-
+<style lang="scss">
+@import "~bootstrap/scss/bootstrap.scss";
 </style>
