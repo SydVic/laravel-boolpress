@@ -7,6 +7,7 @@
  require('./bootstrap');
 
  window.Vue = require('vue');
+ // se da errore e non trova axios servono queste istruzioni
  window.axios = require('axios');
  window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  

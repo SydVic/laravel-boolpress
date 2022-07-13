@@ -1913,8 +1913,10 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       posts: [],
+      totalPosts: 0,
       currentPage: 1,
-      lastPage: 0
+      lastPage: 0,
+      itemsPerPage: 9
     };
   },
   created: function created() {
@@ -1926,7 +1928,8 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('http://127.0.0.1:8000/api/posts', {
         params: {
-          page: pageNumber
+          page: pageNumber,
+          items_per_page: this.itemsPerPage
         }
       }).then(function (resp) {
         // Post:all();
@@ -1935,6 +1938,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.posts = resp.data.results.data;
         _this.currentPage = resp.data.results.current_page;
         _this.lastPage = resp.data.results.last_page;
+        _this.totalPosts = resp.data.results.total;
       });
     },
     truncateText: function truncateText(text, maxCharNumber) {
@@ -1985,13 +1989,63 @@ var render = function render() {
       _c = _vm._self._c;
 
   return _c("div", {
-    staticClass: "container text-center flex-wrap"
-  }, [_c("h2", [_vm._v("ALL POSTS")]), _vm._v(" "), _c("div", {
-    staticClass: "container-fluid d-flex"
+    staticClass: "container text-center"
+  }, [_c("h2", [_vm._v("ALL POSTS")]), _vm._v(" "), _c("p", [_vm._v("Founded: " + _vm._s(_vm.totalPosts) + " posts")]), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    attrs: {
+      "for": "items_per_page"
+    }
+  }, [_vm._v("Posts per page")]), _vm._v(" "), _c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.itemsPerPage,
+      expression: "itemsPerPage"
+    }],
+    staticClass: "form-select",
+    attrs: {
+      name: "items_per_page",
+      id: "items_per_page"
+    },
+    on: {
+      change: [function ($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.itemsPerPage = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+      }, function ($event) {
+        return _vm.getPosts(1);
+      }]
+    }
+  }, [_c("option", {
+    attrs: {
+      value: "3"
+    }
+  }, [_vm._v("3")]), _vm._v(" "), _c("option", {
+    attrs: {
+      value: "6"
+    }
+  }, [_vm._v("6")]), _vm._v(" "), _c("option", {
+    attrs: {
+      value: "9"
+    }
+  }, [_vm._v("9")]), _vm._v(" "), _c("option", {
+    attrs: {
+      value: "12"
+    }
+  }, [_vm._v("12")])])]), _vm._v(" "), _c("div", {
+    staticClass: "container-fluid d-flex justify-content-center flex-wrap"
   }, _vm._l(_vm.posts, function (post, index) {
     return _c("div", {
       key: index,
-      staticClass: "card m-2"
+      staticClass: "card m-2",
+      staticStyle: {
+        width: "18rem"
+      }
     }, [_c("div", {
       staticClass: "card-body"
     }, [_c("h5", {
@@ -1999,7 +2053,9 @@ var render = function render() {
     }, [_vm._v(_vm._s(post.title))]), _vm._v(" "), _c("p", {
       staticClass: "card-text"
     }, [_vm._v(_vm._s(_vm.truncateText(post.content, 100)))])])]);
-  }), 0), _vm._v(" "), _c("nav", {
+  }), 0), _vm._v(" "), _c("div", {
+    staticClass: "container-fluid d-flex justify-content-center"
+  }, [_c("nav", {
     attrs: {
       "aria-label": "..."
     }
@@ -2053,7 +2109,7 @@ var render = function render() {
         return _vm.getPosts(_vm.currentPage + 1);
       }
     }
-  }, [_vm._v("Next")])])], 2)])]);
+  }, [_vm._v("Next")])])], 2)])])]);
 };
 
 var staticRenderFns = [];
@@ -2077,7 +2133,7 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("div", [_c("h2", [_vm._v("VUE GUEST")]), _vm._v(" "), _c("Posts")], 1);
+  return _c("div", [_c("Posts")], 1);
 };
 
 var staticRenderFns = [];
@@ -50225,7 +50281,8 @@ __webpack_require__.r(__webpack_exports__);
  */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js"); // se da errore e non trova axios servono queste istruzioni
+
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /**

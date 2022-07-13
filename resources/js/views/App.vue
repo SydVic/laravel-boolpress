@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2>VUE GUEST</h2>
     <Posts />
   </div>
 </template>
