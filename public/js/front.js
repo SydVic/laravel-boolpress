@@ -2409,7 +2409,7 @@ var render = function render() {
   return _c("div", {
     staticClass: "containe text-center"
   }, [_c("h2", [_vm._v("OOOPS! Page not found..")]), _vm._v(" "), _c("router-link", {
-    staticClass: "nav-link",
+    staticClass: "btn btn-primary",
     attrs: {
       to: {
         name: "home"
