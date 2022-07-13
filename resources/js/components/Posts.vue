@@ -1,8 +1,33 @@
 <template>
   <!-- CONTAINER -->
   <div class="container text-center">
-    <h2>ALL POSTS</h2>
-    <p>Founded: {{ totalPosts }} posts</p>
+    <!-- PAGINATION -->
+    <div class="container-fluid d-flex justify-content-center">
+      <nav aria-label="...">
+        <ul class="pagination">
+          <!-- PREVIOUS PAGE -->
+          <li class="page-item" :class="{ disabled: currentPage === 1 }">
+            <a class="page-link" href="#" @click="getPosts(currentPage - 1)">Previous</a>
+          </li>
+          <!-- /PREVIOUS PAGE -->
+
+          <!-- PAGES NUMBERS -->
+          <li class="page-item" :class="{ active: currentPage === n }" v-for="n in lastPage" :key="n">
+            <a class="page-link" href="#" @click="getPosts(currentPage = n)">{{ n }}</a>
+          </li>
+          <!-- /PAGES NUMBERS -->
+
+          <!-- NEXT PAGE -->
+          <li class="page-item" :class="{ disabled: currentPage === lastPage }">
+            <a class="page-link" href="#" @click="getPosts(currentPage + 1)">Next</a>
+          </li>
+          <!-- /NEXT PAGE -->
+        </ul>
+      </nav>
+    </div>
+    <!-- /PAGINATION -->
+    <h2 class="d-inline-block">ALL POSTS</h2>
+    <p class="d-inline-block">Founded: {{ totalPosts }} posts</p>
 
     <!-- SELECT NUMBER OF ITEM PER PAGE -->
     <div class="form-group">
@@ -38,32 +63,6 @@
       <!-- /POST CARD -->
     </div>
     <!-- /CONTAINER FLUID -->
-
-    <!-- PAGINATION -->
-    <div class="container-fluid d-flex justify-content-center">
-      <nav aria-label="...">
-        <ul class="pagination">
-          <!-- PREVIOUS PAGE -->
-          <li class="page-item" :class="{ disabled: currentPage === 1 }">
-            <a class="page-link" href="#" @click="getPosts(currentPage - 1)">Previous</a>
-          </li>
-          <!-- /PREVIOUS PAGE -->
-
-          <!-- PAGES NUMBERS -->
-          <li class="page-item" :class="{ active: currentPage === n }" v-for="n in lastPage" :key="n">
-            <a class="page-link" href="#" @click="getPosts(currentPage = n)">{{ n }}</a>
-          </li>
-          <!-- /PAGES NUMBERS -->
-
-          <!-- NEXT PAGE -->
-          <li class="page-item" :class="{ disabled: currentPage === lastPage }">
-            <a class="page-link" href="#" @click="getPosts(currentPage + 1)">Next</a>
-          </li>
-          <!-- /NEXT PAGE -->
-        </ul>
-      </nav>
-      <!-- /PAGINATION -->
-    </div>
   </div>
   <!-- /CONTAINER -->
 </template>
