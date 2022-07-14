@@ -7,7 +7,7 @@ import Home from "./pages/Home.vue";
 import Blog from "./pages/Blog.vue";
 import About from "./pages/About.vue";
 import NotFound from "./pages/NotFound.vue";
-
+import SinglePost from "./pages/SinglePost.vue";
 
 const router = new VueRouter({
   mode: "history",
@@ -28,7 +28,13 @@ const router = new VueRouter({
       component: About
     },
     {
+      path: "/blog/:slug",
+      name: "single-post",
+      component: SinglePost
+    },
+    {
       path: "/*",
+      name: "not-found",
       component: NotFound
     }
   ]

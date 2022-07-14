@@ -1,0 +1,53 @@
+<template>
+  <div class="container d-flex justify-content-center">
+    <div v-if="post">
+      <h1>{{ post.title }}</h1>
+      <p>Category: {{ categoryName }}</p>
+      <span v-for="tag in post.tags" :key="tag.id" class="badge badge-pill badge-success mb-4 mr-2">{{ tag.name }}</span>
+      <p>{{ post.content }}</p>
+    </div>
+    <Loading v-else />
+  </div>
+</template>
+
+<script>
+import PostCard from "../components/PostCard.vue";
+export default {
+  name: 'SinglePost',
+  components: {
+    PostCard
+  },
+  data() {
+    return {
+      post: null
+    }
+  },
+  created() {
+    this.getPostDetails();
+  },
+  computed: {
+    categoryName() {
+      return this.post.category ? this.post.category.name : 'no category';
+    }
+  },
+  methods: {
+    getPostDetails() {
+      // $route è una variabile speciale che ci da Vue Router e ci permette di capire dove ci troviamo in qualsiasi punto dell'applicazione
+      const slug = this.$route.params.slug;
+      console.log(slug);
+      // !!!!!!!! ATTENZIONE CHE CI VOGLIONO I BACKTICK !!!!!!!!!!
+      axios.get(`http://127.0.0.1:8000/api/posts/${slug}`).then((resp) => {
+        if (resp.data.success) {
+          this.post = resp.data.results;
+        } else {
+          this.$router.push({ name: 'not-found'});
+        }
+      });
+    }
+  }
+}
+</script>
+
+<style>
+
+</style>

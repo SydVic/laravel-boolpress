@@ -12,14 +12,28 @@ class PostController extends Controller
         $items_per_page = $request->items_per_page ? $request->items_per_page : 9;
         // richiesta al server dei dati
         // $posts = Post::all();
-        $posts = Post::paginate($items_per_page);
-
+        $posts = Post::with(['category'])->paginate($items_per_page);
         // conversione dei dati in Json per poterli passare a Vue
         // response() ti ritorna la risposta http
         return response()->json([
             // se non va a buon fine non ti arriva true
             'success' => true,
             'results' => $posts
+        ]);
+    }
+
+    public function show($slug) {
+        $post = Post::where('slug', '=', $slug)->with(['category', 'tags'])->first();
+        
+        if($post) {
+            return response()->json([
+                'success' => true,
+                'results' => $post
+            ]);
+        } 
+        return response()->json([
+            'success' => false,
+            'results' => 'nessun post trovato'
         ]);
     }
 }

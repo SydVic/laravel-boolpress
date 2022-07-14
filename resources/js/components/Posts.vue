@@ -1,6 +1,9 @@
 <template>
+  <div v-if="loading">
+    <Loading />
+  </div>
   <!-- CONTAINER -->
-  <div class="container text-center">
+  <div v-else class="container text-center">
     <!-- PAGINATION -->
     <div class="container-fluid d-flex justify-content-center">
       <nav aria-label="...">
@@ -26,6 +29,7 @@
       </nav>
     </div>
     <!-- /PAGINATION -->
+
     <h2 class="d-inline-block">ALL POSTS</h2>
     <p class="d-inline-block">Founded: {{ totalPosts }} posts</p>
 
@@ -43,24 +47,7 @@
 
     <!-- CONTAINER FLUID -->
     <div class="container-fluid d-flex justify-content-center flex-wrap">
-      <!-- POST CARD -->
-      <div class="card m-2" style="width: 18rem;" v-for="(post, index) in posts" :key="index">
-        <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
-        <div class="card-body">
-          <h5 class="card-title">{{post.title}}</h5>
-          <p class="card-text">{{ truncateText(post.content, 100)}}</p>
-        </div>
-        <!-- <ul class="list-group list-group-flush">
-          <li class="list-group-item">Cras justo odio</li>
-          <li class="list-group-item">Dapibus ac facilisis in</li>
-          <li class="list-group-item">Vestibulum at eros</li>
-        </ul>
-        <div class="card-body">
-          <a href="#" class="card-link">Card link</a>
-          <a href="#" class="card-link">Another link</a>
-        </div> -->
-      </div>
-      <!-- /POST CARD -->
+      <PostCard v-for="post in posts" :key="post.id" :post="post"/>
     </div>
     <!-- /CONTAINER FLUID -->
   </div>
@@ -68,15 +55,23 @@
 </template>
 
 <script>
+import Loading from './Loading.vue';
+import PostCard from './PostCard.vue';
+
 export default {
   name: 'Posts',
+  components: {
+    Loading,
+    PostCard
+  },
   data() {
     return {
       posts: [],
       totalPosts: 0,
       currentPage: 1,
       lastPage: 0,
-      itemsPerPage: 9
+      itemsPerPage: 9,
+      loading: true
     }
   },
   created() {
@@ -98,13 +93,8 @@ export default {
         this.currentPage = resp.data.results.current_page;
         this.lastPage = resp.data.results.last_page;
         this.totalPosts = resp.data.results.total;
+        this.loading = false;
       });
-    },
-    truncateText(text, maxCharNumber) {
-      if (text.length > maxCharNumber) {
-        return text.substr(0, maxCharNumber) + '...';
-      }
-      return text;
     }
   }
 }
