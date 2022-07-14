@@ -21,3 +21,4 @@ use Illuminate\Support\Facades\Route;
 // per eesere coerenti con i nomi delle altre rotte è bene aggiungere api. prima del nome
 Route::get('/posts', 'Api\PostController@index')->name('api.posts.index');
 Route::get('/posts/{slug}', 'Api\PostController@show')->name('api.posts.show');
+Route::get('/tags/{slug}', 'Api\TagController@show')->name('api.tags.show');

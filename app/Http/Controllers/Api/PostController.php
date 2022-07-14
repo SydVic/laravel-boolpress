@@ -33,7 +33,7 @@ class PostController extends Controller
         } 
         return response()->json([
             'success' => false,
-            'results' => 'nessun post trovato'
+            'results' => 'no post found'
         ]);
     }
 }
