@@ -3,7 +3,7 @@
     <div v-if="post">
       <h1>{{ post.title }}</h1>
       <p>Category: {{ categoryName }}</p>
-      <span v-for="tag in post.tags" :key="tag.id" class="badge badge-pill badge-success mb-4 mr-2">{{ tag.name }}</span>
+      <router-link :to="{ name: 'single-tag', params: { slug: tag.slug } }" v-for="tag in post.tags" :key="tag.id" class="badge badge-pill badge-success mb-4 mr-2">{{ tag.name }}</router-link>
       <p>{{ post.content }}</p>
     </div>
     <Loading v-else />
