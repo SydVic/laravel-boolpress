@@ -16,7 +16,7 @@
   {{-- /FEEDBACK ERRORI FORM PER UTENTE --}}
 
   {{-- FORM PER MODIFICA POST --}}
-  <form class="mt-3" action="{{ route('admin.posts.update', ['post' => $post_to_edit->id]) }}" method="POST">
+  <form class="mt-3" action="{{ route('admin.posts.update', ['post' => $post_to_edit->id]) }}" method="POST" enctype="multipart/form-data">
     @method('PUT')
     @csrf
 
@@ -62,6 +62,18 @@
       <textarea type="text" class="form-control" id="content" name="content" rows="10">{{ old('content') ? old('content') : $post_to_edit->content }}</textarea>
     </div>
     {{-- /CONTENT --}}
+
+    {{-- COVER IMAGE --}}
+    <div class="mb-3">
+      <label for="image">Change image</label>
+      <input type="file" id="image" name="image">
+
+      <h5>Current image</h5>
+      @if ($post_to_edit->cover)
+      <img src="{{ asset('storage/' . $post_to_edit->cover) }}" alt="{{ $post_to_edit->title }}">
+      @endif
+    </div>
+    {{-- /COVER IMAGE --}}
 
     <button type="submit" class="btn btn-primary">Submit changes</button>
     <a href="{{ route('admin.posts.show', ['post' => $post_to_edit->id]) }}" class="btn btn-primary">Back without changes</a>

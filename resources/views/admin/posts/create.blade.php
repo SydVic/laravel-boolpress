@@ -16,7 +16,7 @@
   {{-- /FEEDBACK ERRORI FORM PER UTENTE --}}
 
   {{-- FORM PER CREAZIONE NUOVO POST --}}
-  <form class="mt-3" action="{{ route('admin.posts.store') }}" method="POST">
+  <form class="mt-3" action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     {{-- TITLE --}}
@@ -61,6 +61,13 @@
       <textarea type="text" class="form-control" id="content" name="content" rows="10">{{ old('content') }}</textarea>
     </div>
     {{-- /CONTENT --}}
+
+    {{-- COVER IMAGE --}}
+    <div class="mb-3">
+      <label for="image">Upload an image</label>
+      <input type="file" id="image" name="image">
+    </div>
+    {{-- /COVER IMAGE --}}
 
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>

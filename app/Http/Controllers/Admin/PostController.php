@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Post;
 use App\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -48,6 +49,13 @@ class PostController extends Controller
 
         // salvataggio dei dati nel database
         $data = $request->all();
+
+        // controllo se l'immagine viene caricata, se c'è faccio storage e  creo il path altrimenti no
+        if(isset($data['image'])) {
+            $image_path = Storage::put('post_covers', $data['image']);
+            $data['cover'] = $image_path;
+        }
+
         $new_post = new Post();
         $new_post->fill($data);
         $new_post->slug = Post::generateUniqueSlug($new_post->title);
@@ -111,8 +119,20 @@ class PostController extends Controller
         // $post_to_update->save();
 
         // salvataggio dati con metodo update
-        $post_to_update = Post::findOrFail($id);
         $data = $request->all();
+        $post_to_update = Post::findOrFail($id);
+
+        // se abbiamo cambiato l'immagine e quindi in $data è presente image
+        if(isset($data['image'])) {
+            // cancelliamo l'immagine precedente
+            if( $post_to_update->cover) {
+                Storage::delete($post_to_update->cover);
+            }
+            // salviamo l'immagine nuova
+            $image_path = Storage::put('post_covers', $data['image']);
+            $data['cover'] = $image_path;
+        }
+
         $data['slug'] = Post::generateUniqueSlug($data['title']);
         $post_to_update->update($data);
 
@@ -134,8 +154,13 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post_to_destroy = Post::findOrFail($id);
-        // per eliminare prima i record dalla tabella ponte
+        // per eliminare prima i record dalla tabella ponte, potrebbe servire con alcune restrizioni del database
         // $post_to_destroy->tags()->sync([]);
+
+        // se c'è l'immagine di copertina la cancelliamo
+        if($post_to_destroy->cover) {
+            Storage::delete($post_to_destroy->cover);
+        }
         $post_to_destroy->delete();
 
         return redirect()->route('admin.posts.index');
@@ -148,7 +173,11 @@ class PostController extends Controller
      */
     private function getValidationRules() {
         return [
+            // devi usare i name che hai usato nella form
             'title' => 'required|max:255',
+            // con image crea problemi
+            'image' => 'mimes:jpeg,png,jpg|max:512',
+            // 'image' => 'image|max:512',
             'content' => 'required|max:20000',
             // puo essere null e poi deve esistere nella tabella->categories nella colonna->id
             'category_id' => 'nullable|exists:categories,id',

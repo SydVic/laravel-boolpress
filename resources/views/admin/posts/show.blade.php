@@ -2,7 +2,9 @@
 
 @section('main_content')
   <div class="card" style="width: 40rem;">
-    {{-- <img class="card-img-top" src="..." alt="Card image cap"> --}}
+    @if ($post->cover)
+      <img class="card-img-top" src="{{ asset('storage/' . $post->cover) }}" alt="{{ $post->title }}">
+    @endif
     <div class="card-body">
       <h5 class="card-title">{{ $post->title }}</h5>
       {{-- per controllare se c'è o no la categoria altrimenti da errore --}}

@@ -7,7 +7,9 @@
     <div class="container-fluid d-flex flex-wrap justify-content-center">
       @foreach ($posts as $post)
         <div class="card m-2" style="width: 30rem;">
-          {{-- <img src="..." class="card-img-top" alt="..."> --}}
+          @if ($post->cover)
+            <img src="{{ asset('storage/' . $post->cover) }}" class="card-img-top" alt="{{ $post->title }}">  
+          @endif
           <div class="card-body">
             <h5 class="card-title">{{$post->title}}</h5>
             <p>Slug: {{ $post->slug }}</p>

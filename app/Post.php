@@ -22,6 +22,7 @@ class Post extends Model
     
     protected $fillable = [
         'title',
+        'cover',
         'content',
         'slug',
         'category_id'
@@ -37,10 +38,10 @@ class Post extends Model
         $base_slug = Str::slug($title, '-');
         $slug = $base_slug;
         $count = 1;
-        $slug_found = Post::where('slug', '=', $slug)->first();
+        $slug_found = Post::where('slug', '=', $slug)->withTrashed()->first();
         while($slug_found) {
             $slug = $base_slug . '-' . $count;
-            $slug_found = Post::where('slug', '=', $slug)->first();
+            $slug_found = Post::where('slug', '=', $slug)->withTrashed()->first();
             $count++;
         }
         return $slug;

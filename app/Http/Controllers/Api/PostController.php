@@ -13,6 +13,12 @@ class PostController extends Controller
         // richiesta al server dei dati
         // $posts = Post::all();
         $posts = Post::with(['category'])->paginate($items_per_page);
+
+        // per trasformare path del cover in url completo
+        foreach($posts as $post) {
+            $post->cover = url('storage/' . $post->cover);
+        }
+
         // conversione dei dati in Json per poterli passare a Vue
         // response() ti ritorna la risposta http
         return response()->json([
@@ -26,6 +32,10 @@ class PostController extends Controller
         $post = Post::where('slug', '=', $slug)->with(['category', 'tags'])->first();
         
         if($post) {
+            if($post->cover) {
+                $post->cover = url('storage/' . $post->cover);
+            }
+            
             return response()->json([
                 'success' => true,
                 'results' => $post

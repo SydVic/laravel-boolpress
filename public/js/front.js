@@ -2107,11 +2107,14 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_PostCard_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/PostCard.vue */ "./resources/js/components/PostCard.vue");
+/* harmony import */ var _components_Loading_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Loading.vue */ "./resources/js/components/Loading.vue");
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'SinglePost',
   components: {
-    PostCard: _components_PostCard_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    PostCard: _components_PostCard_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Loading: _components_Loading_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
@@ -2347,7 +2350,13 @@ var render = function render() {
     staticStyle: {
       width: "18rem"
     }
-  }, [_c("div", {
+  }, [_vm.post.cover ? _c("img", {
+    staticClass: "card-img-top",
+    attrs: {
+      src: _vm.post.cover,
+      alt: _vm.post.title
+    }
+  }) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "card-body"
   }, [_c("h5", {
     staticClass: "card-title"
@@ -2655,7 +2664,14 @@ var render = function render() {
 
   return _c("div", {
     staticClass: "container d-flex justify-content-center"
-  }, [_vm.post ? _c("div", [_c("h1", [_vm._v(_vm._s(_vm.post.title))]), _vm._v(" "), _c("p", [_vm._v("Category: " + _vm._s(_vm.categoryName))]), _vm._v(" "), _vm._l(_vm.post.tags, function (tag) {
+  }, [_vm.post ? _c("div", [_vm.post.cover ? _c("div", [_c("img", {
+    attrs: {
+      src: _vm.post.cover,
+      alt: _vm.post.title
+    }
+  })]) : _vm._e(), _vm._v(" "), _c("h1", [_vm._v(_vm._s(_vm.post.title))]), _vm._v(" "), _c("p", [_vm._v("Category: "), _c("span", {
+    staticClass: "badge badge-primary"
+  }, [_vm._v(" " + _vm._s(_vm.categoryName) + " ")])]), _vm._v(" "), _vm._l(_vm.post.tags, function (tag) {
     return _c("router-link", {
       key: tag.id,
       staticClass: "badge badge-pill badge-success mb-4 mr-2",

@@ -1,8 +1,11 @@
 <template>
   <div class="container d-flex justify-content-center">
     <div v-if="post">
+      <div v-if="post.cover">
+        <img :src="post.cover" :alt="post.title">
+      </div>
       <h1>{{ post.title }}</h1>
-      <p>Category: {{ categoryName }}</p>
+      <p>Category: <span class="badge badge-primary"> {{ categoryName }} </span></p>
       <router-link :to="{ name: 'single-tag', params: { slug: tag.slug } }" v-for="tag in post.tags" :key="tag.id" class="badge badge-pill badge-success mb-4 mr-2">{{ tag.name }}</router-link>
       <p>{{ post.content }}</p>
     </div>
@@ -12,10 +15,13 @@
 
 <script>
 import PostCard from "../components/PostCard.vue";
+import Loading from "../components/Loading.vue";
+
 export default {
   name: 'SinglePost',
   components: {
-    PostCard
+    PostCard,
+    Loading
   },
   data() {
     return {
@@ -28,7 +34,7 @@ export default {
   computed: {
     categoryName() {
       return this.post.category ? this.post.category.name : 'no category';
-    }
+    },
   },
   methods: {
     getPostDetails() {
